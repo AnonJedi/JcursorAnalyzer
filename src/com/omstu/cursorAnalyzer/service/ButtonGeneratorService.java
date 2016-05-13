@@ -1,7 +1,7 @@
-package service;
+package com.omstu.cursorAnalyzer.service;
 
-import controller.ActionAreaClickController;
-import controller.TestButtonClickController;
+import com.omstu.cursorAnalyzer.controller.ActionAreaClickController;
+import com.omstu.cursorAnalyzer.controller.TestButtonClickController;
 
 import java.awt.*;
 import java.util.Random;
@@ -20,8 +20,7 @@ public class ButtonGeneratorService {
         int x = random.nextInt(areaWidth - size);
         int y = random.nextInt(areaHeight - size);
         newButton.setBounds(x, y, size, size);
-        newButton.addMouseListener(new TestButtonClickController(
-                ActionAreaClickController.getAnalyzerService()));
+        newButton.addMouseListener(new TestButtonClickController());
         return newButton;
     }
 }

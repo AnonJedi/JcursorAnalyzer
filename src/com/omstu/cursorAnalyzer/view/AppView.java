@@ -1,10 +1,12 @@
-package view;
+package com.omstu.cursorAnalyzer.view;
 
-import controller.ActionAreaClickController;
-import controller.RegButtonClickController;
-import controller.StartStopButtonClickController;
+import com.omstu.cursorAnalyzer.controller.ActionAreaClickController;
+import com.omstu.cursorAnalyzer.controller.RegButtonClickController;
+import com.omstu.cursorAnalyzer.controller.StartStopButtonClickController;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class AppView extends Frame {
 
@@ -12,6 +14,7 @@ public class AppView extends Frame {
         super(title);
         setLayout(null);
         setBounds(0, 0, 1200, 700);
+        addWindowListener(new CustomWindowAdapter());
         setVisible(true);
 
         TextField textField = new TextField(1);
@@ -51,5 +54,12 @@ public class AppView extends Frame {
         Label counter = new Label("");
         counter.setBounds(75, 150, 30, 20);
         add(counter);
+    }
+
+    class CustomWindowAdapter extends WindowAdapter {
+        @Override
+        public void windowClosing(WindowEvent e){
+            System.exit(0);
+        }
     }
 }

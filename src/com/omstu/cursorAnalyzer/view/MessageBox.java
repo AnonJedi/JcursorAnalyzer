@@ -1,6 +1,6 @@
-package view;
+package com.omstu.cursorAnalyzer.view;
 
-import controller.MessageBoxButtonClickController;
+import com.omstu.cursorAnalyzer.controller.MessageBoxButtonClickController;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package controller;
+package com.omstu.cursorAnalyzer.controller;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

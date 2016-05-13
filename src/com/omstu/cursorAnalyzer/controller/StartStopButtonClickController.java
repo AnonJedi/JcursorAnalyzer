@@ -1,7 +1,9 @@
-package controller;
+package com.omstu.cursorAnalyzer.controller;
 
-import common.Common;
-import service.ButtonGeneratorService;
+import com.omstu.cursorAnalyzer.common.Common;
+import com.omstu.cursorAnalyzer.service.AnalyzerService;
+import com.omstu.cursorAnalyzer.service.ButtonGeneratorService;
+import com.omstu.cursorAnalyzer.service.ParamsCalculatorService;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -24,12 +26,14 @@ public class StartStopButtonClickController extends MouseAdapter {
         if (button.getLabel().equals("Start")) {
             button.setLabel("Stop");
             testArea.add(generatorService.generateNewButton(null, 900, 700));
+            testArea.addMouseMotionListener(new ActionAreaClickController());
+            ParamsCalculatorService.reloadFields();
         } else {
             testArea.removeAll();
             button.setLabel("Start");
             button.setEnabled(false);
-
-            ActionAreaClickController.restartTestServices();
+            testArea.removeMouseMotionListener(new ActionAreaClickController());
+            AnalyzerService.stopTest(true);
         }
     }
 }

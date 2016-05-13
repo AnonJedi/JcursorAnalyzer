@@ -1,4 +1,4 @@
-package service;
+package com.omstu.cursorAnalyzer.service;
 
 public class FFT
 {

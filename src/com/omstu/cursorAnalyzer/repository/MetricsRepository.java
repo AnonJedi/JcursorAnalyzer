@@ -1,4 +1,4 @@
-package repository;
+package com.omstu.cursorAnalyzer.repository;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
-package controller;
+package com.omstu.cursorAnalyzer.controller;
 
-import common.Common;
-import service.AnalyzerService;
-import service.ButtonGeneratorService;
+import com.omstu.cursorAnalyzer.common.Common;
+import com.omstu.cursorAnalyzer.service.AnalyzerService;
+import com.omstu.cursorAnalyzer.service.ButtonGeneratorService;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -11,11 +11,9 @@ import java.awt.event.MouseEvent;
 public class TestButtonClickController extends MouseAdapter {
 
     private ButtonGeneratorService generatorService;
-    private AnalyzerService analyzerService;
     private Button oldButton;
 
-    public TestButtonClickController(AnalyzerService analyzerService) {
-        this.analyzerService = analyzerService;
+    public TestButtonClickController() {
         this.generatorService = new ButtonGeneratorService();
     }
 
@@ -25,8 +23,8 @@ public class TestButtonClickController extends MouseAdapter {
         Label counter = (Label) e.getComponent()
                 .getParent()
                 .getParent()
-                .getComponent(Common.COUNTER_LABEL_NUMBER);
-        counter.setText(String.valueOf(analyzerService.parseClickParams(size, e.getPoint())));
+                .getComponent(Common.USER_TEST_COUNTER_NUMBER);
+        counter.setText(String.valueOf(AnalyzerService.parseClickParams(size, e.getPoint())));
 
         Button newButton = generatorService.generateNewButton(oldButton, 900, 700);
         Panel testArea = (Panel) e.getComponent().getParent();

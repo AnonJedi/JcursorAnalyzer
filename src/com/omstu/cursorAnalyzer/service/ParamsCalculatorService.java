@@ -1,7 +1,6 @@
-package service;
+package com.omstu.cursorAnalyzer.service;
 
 import java.awt.*;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -12,257 +11,257 @@ import java.util.Date;
 public class ParamsCalculatorService {
 
     //текущие координаты мыши
-    private Point mousePoint;
+    private static Point mousePoint;
 
     //траектория мышки
-    private ArrayList<Point> mouseTrack;
+    private static ArrayList<Point> mouseTrack;
 
     //хранилище траекторий мыши
-    private ArrayList<ArrayList<Point>> mouseTracksContainer;
+    private static ArrayList<ArrayList<Point>> mouseTracksContainer;
 
     //хранилище текущего параметра C
-    private ArrayList<ArrayList<Double>> tracksDiffContainer;
+    private static ArrayList<ArrayList<Double>> tracksDiffContainer;
 
     //хранилище максимальных отклонений траекторий
-    private ArrayList<Double> maxDiffTracks;
+    private static ArrayList<Double> maxDiffTracks;
 
     //хранилище средних отклонений траекторий
-    private ArrayList<Double> midDiffTracks;
+    private static ArrayList<Double> midDiffTracks;
 
     //размер стороны куба
-    private ArrayList<Integer> shapeSize;
+    private static ArrayList<Integer> shapeSize;
 
     //хранилище расстояний между центрами фигур
-    private ArrayList<Double> lensContainer;
+    private static ArrayList<Double> lensContainer;
 
     //длинна траектории мыши
-    private ArrayList<Double> distanceLen;
+    private static ArrayList<Double> distanceLen;
 
     //хранилище времён между кликами
-    private ArrayList<Date> clickTimeContainer;
+    private static ArrayList<Long> clickTimeContainer;
 
     //средняя скорость движения мыши
-    private double midMouseSpeed;
+    private static double midMouseSpeed;
 
     //хранилище Т
-    private ArrayList<Double> t;
+    private static ArrayList<Double> t;
 
     //математическое ожидание значений Т
-    private double expirationT;
+    private static double expirationT;
 
     //математическое ожидание максимальных отклонений траектории мыши от идеальной траектории
-    private double maxDiffTracksExpiration;
+    private static double maxDiffTracksExpiration;
 
     //математическое ожидание средних отклонений траектории мыши от идеальной траектории
-    private double midDiffTracksExpiration;
+    private static double midDiffTracksExpiration;
 
     //среднеквадратичное отклонение параметра T
-    private double tDispertion;
+    private static double tDispertion;
 
     //среднеквадратичное отклонение среднего отклонения траекторий
-    private double midDiffTracksDispertion;
+    private static double midDiffTracksDispertion;
 
     //среднеквадратичное отклонение максимального отклонения траекторий
-    private double maxDiffTracksDispersion;
+    private static double maxDiffTracksDispersion;
 
     //хранилище отклонений координаты мыши от идеальной координаты
-    private ArrayList<Double> diffContainer;
+    private static ArrayList<Double> diffContainer;
 
     //хранилище амплитуд ряда распределения отклонений мыши
-    private ArrayList<Float[]> ampContainer;
+    private static ArrayList<Float[]> ampContainer;
 
     //математическое ожидание амплитуд отклонения
-    private float[] ampExpiration;
+    private static float[] ampExpiration;
 
     //дисперсия амплитуд отклонения
-    private float[] ampDispertion;
+    private static float[] ampDispertion;
 
     //
     private static float[] allAmp;
 
     //контейнер вычисленной энергии движения мыши
-    private ArrayList<Double> energyContainer;
+    private static ArrayList<Double> energyContainer;
 
     //контейнер времён
-    private ArrayList<Date> timeContainer;
+    private static ArrayList<Date> timeContainer;
 
     //текущая скорость движения мыши
-    private ArrayList<Double> mouseSpeed;
+    private static ArrayList<Double> mouseSpeed;
 
-    public Point getMousePoint() {
+    public static Point getMousePoint() {
         return mousePoint;
     }
 
-    public void setMousePoint(Point mousePoint) {
-        this.mousePoint = mousePoint;
+    public static void setMousePoint(Point mousePoint) {
+        ParamsCalculatorService.mousePoint = mousePoint;
     }
 
-    public ArrayList<Point> getMouseTrack() {
+    public static ArrayList<Point> getMouseTrack() {
         return mouseTrack;
     }
 
-    public void setMouseTrack(ArrayList<Point> mouseTrack) {
-        this.mouseTrack = mouseTrack;
+    public static void setMouseTrack(ArrayList<Point> mouseTrack) {
+        ParamsCalculatorService.mouseTrack = mouseTrack;
     }
 
-    public ArrayList<ArrayList<Point>> getMouseTracksContainer() {
+    public static ArrayList<ArrayList<Point>> getMouseTracksContainer() {
         return mouseTracksContainer;
     }
 
-    public void setMouseTracksContainer(ArrayList<ArrayList<Point>> mouseTracksContainer) {
-        this.mouseTracksContainer = mouseTracksContainer;
+    public static void setMouseTracksContainer(ArrayList<ArrayList<Point>> mouseTracksContainer) {
+        ParamsCalculatorService.mouseTracksContainer = mouseTracksContainer;
     }
 
-    public ArrayList<ArrayList<Double>> getTracksDiffContainer() {
+    public static ArrayList<ArrayList<Double>> getTracksDiffContainer() {
         return tracksDiffContainer;
     }
 
-    public void setTracksDiffContainer(ArrayList<ArrayList<Double>> tracksDiffContainer) {
-        this.tracksDiffContainer = tracksDiffContainer;
+    public static void setTracksDiffContainer(ArrayList<ArrayList<Double>> tracksDiffContainer) {
+        ParamsCalculatorService.tracksDiffContainer = tracksDiffContainer;
     }
 
-    public ArrayList<Double> getMaxDiffTracks() {
+    public static ArrayList<Double> getMaxDiffTracks() {
         return maxDiffTracks;
     }
 
-    public void setMaxDiffTracks(ArrayList<Double> maxDiffTracks) {
-        this.maxDiffTracks = maxDiffTracks;
+    public static void setMaxDiffTracks(ArrayList<Double> maxDiffTracks) {
+        ParamsCalculatorService.maxDiffTracks = maxDiffTracks;
     }
 
-    public ArrayList<Double> getMidDiffTracks() {
+    public static ArrayList<Double> getMidDiffTracks() {
         return midDiffTracks;
     }
 
-    public void setMidDiffTracks(ArrayList<Double> midDiffTracks) {
-        this.midDiffTracks = midDiffTracks;
+    public static void setMidDiffTracks(ArrayList<Double> midDiffTracks) {
+        ParamsCalculatorService.midDiffTracks = midDiffTracks;
     }
 
-    public ArrayList<Integer> getShapeSize() {
+    public static ArrayList<Integer> getShapeSize() {
         return shapeSize;
     }
 
-    public void setShapeSize(ArrayList<Integer> shapeSize) {
-        this.shapeSize = shapeSize;
+    public static void setShapeSize(ArrayList<Integer> shapeSize) {
+        ParamsCalculatorService.shapeSize = shapeSize;
     }
 
-    public ArrayList<Double> getLensContainer() {
+    public static ArrayList<Double> getLensContainer() {
         return lensContainer;
     }
 
-    public void setLensContainer(ArrayList<Double> lensContainer) {
-        this.lensContainer = lensContainer;
+    public static void setLensContainer(ArrayList<Double> lensContainer) {
+        ParamsCalculatorService.lensContainer = lensContainer;
     }
 
-    public ArrayList<Double> getDistanceLen() {
+    public static ArrayList<Double> getDistanceLen() {
         return distanceLen;
     }
 
-    public void setDistanceLen(ArrayList<Double> distanceLen) {
-        this.distanceLen = distanceLen;
+    public static void setDistanceLen(ArrayList<Double> distanceLen) {
+        ParamsCalculatorService.distanceLen = distanceLen;
     }
 
-    public ArrayList<Date> getClickTimeContainer() {
+    public static ArrayList<Long> getClickTimeContainer() {
         return clickTimeContainer;
     }
 
-    public void setClickTimeContainer(ArrayList<Date> clickTimeContainer) {
-        this.clickTimeContainer = clickTimeContainer;
+    public static void setClickTimeContainer(ArrayList<Long> clickTimeContainer) {
+        ParamsCalculatorService.clickTimeContainer = clickTimeContainer;
     }
 
-    public double getMidMouseSpeed() {
+    public static double getMidMouseSpeed() {
         return midMouseSpeed;
     }
 
-    public void setMidMouseSpeed(double midMouseSpeed) {
-        this.midMouseSpeed = midMouseSpeed;
+    public static void setMidMouseSpeed(double midMouseSpeed) {
+        ParamsCalculatorService.midMouseSpeed = midMouseSpeed;
     }
 
-    public ArrayList<Double> getT() {
+    public static ArrayList<Double> getT() {
         return t;
     }
 
-    public void setT(ArrayList<Double> t) {
-        this.t = t;
+    public static void setT(ArrayList<Double> t) {
+        ParamsCalculatorService.t = t;
     }
 
-    public double getExpirationT() {
+    public static double getExpirationT() {
         return expirationT;
     }
 
-    public void setExpirationT(double expirationT) {
-        this.expirationT = expirationT;
+    public static void setExpirationT(double expirationT) {
+        ParamsCalculatorService.expirationT = expirationT;
     }
 
-    public double getMaxDiffTracksExpiration() {
+    public static double getMaxDiffTracksExpiration() {
         return maxDiffTracksExpiration;
     }
 
-    public void setMaxDiffTracksExpiration(double maxDiffTracksExpiration) {
-        this.maxDiffTracksExpiration = maxDiffTracksExpiration;
+    public static void setMaxDiffTracksExpiration(double maxDiffTracksExpiration) {
+        ParamsCalculatorService.maxDiffTracksExpiration = maxDiffTracksExpiration;
     }
 
-    public double getMidDiffTracksExpiration() {
+    public static double getMidDiffTracksExpiration() {
         return midDiffTracksExpiration;
     }
 
-    public void setMidDiffTracksExpiration(double midDiffTracksExpiration) {
-        this.midDiffTracksExpiration = midDiffTracksExpiration;
+    public static void setMidDiffTracksExpiration(double midDiffTracksExpiration) {
+        ParamsCalculatorService.midDiffTracksExpiration = midDiffTracksExpiration;
     }
 
-    public double gettDispertion() {
+    public static double gettDispertion() {
         return tDispertion;
     }
 
-    public void settDispertion(double tDispertion) {
-        this.tDispertion = tDispertion;
+    public static void settDispertion(double tDispertion) {
+        ParamsCalculatorService.tDispertion = tDispertion;
     }
 
-    public double getMidDiffTracksDispertion() {
+    public static double getMidDiffTracksDispertion() {
         return midDiffTracksDispertion;
     }
 
-    public void setMidDiffTracksDispertion(double midDiffTracksDispertion) {
-        this.midDiffTracksDispertion = midDiffTracksDispertion;
+    public static void setMidDiffTracksDispertion(double midDiffTracksDispertion) {
+        ParamsCalculatorService.midDiffTracksDispertion = midDiffTracksDispertion;
     }
 
-    public double getMaxDiffTracksDispersion() {
+    public static double getMaxDiffTracksDispersion() {
         return maxDiffTracksDispersion;
     }
 
-    public void setMaxDiffTracksDispersion(double maxDiffTracksDispersion) {
-        this.maxDiffTracksDispersion = maxDiffTracksDispersion;
+    public static void setMaxDiffTracksDispersion(double maxDiffTracksDispersion) {
+        ParamsCalculatorService.maxDiffTracksDispersion = maxDiffTracksDispersion;
     }
 
-    public ArrayList<Double> getDiffContainer() {
+    public static ArrayList<Double> getDiffContainer() {
         return diffContainer;
     }
 
-    public void setDiffContainer(ArrayList<Double> diffContainer) {
-        this.diffContainer = diffContainer;
+    public static void setDiffContainer(ArrayList<Double> diffContainer) {
+        ParamsCalculatorService.diffContainer = diffContainer;
     }
 
-    public ArrayList<Float[]> getAmpContainer() {
+    public static ArrayList<Float[]> getAmpContainer() {
         return ampContainer;
     }
 
-    public void setAmpContainer(ArrayList<Float[]> ampContainer) {
-        this.ampContainer = ampContainer;
+    public static void setAmpContainer(ArrayList<Float[]> ampContainer) {
+        ParamsCalculatorService.ampContainer = ampContainer;
     }
 
-    public float[] getAmpExpiration() {
+    public static float[] getAmpExpiration() {
         return ampExpiration;
     }
 
-    public void setAmpExpiration(float[] ampExpiration) {
-        this.ampExpiration = ampExpiration;
+    public static void setAmpExpiration(float[] ampExpiration) {
+        ParamsCalculatorService.ampExpiration = ampExpiration;
     }
 
-    public float[] getAmpDispertion() {
+    public static float[] getAmpDispertion() {
         return ampDispertion;
     }
 
-    public void setAmpDispertion(float[] ampDispertion) {
-        this.ampDispertion = ampDispertion;
+    public static void setAmpDispertion(float[] ampDispertion) {
+        ParamsCalculatorService.ampDispertion = ampDispertion;
     }
 
     public static float[] getAllAmp() {
@@ -273,46 +272,46 @@ public class ParamsCalculatorService {
         ParamsCalculatorService.allAmp = allAmp;
     }
 
-    public ArrayList<Double> getEnergyContainer() {
+    public static ArrayList<Double> getEnergyContainer() {
         return energyContainer;
     }
 
-    public void setEnergyContainer(ArrayList<Double> energyContainer) {
-        this.energyContainer = energyContainer;
+    public static void setEnergyContainer(ArrayList<Double> energyContainer) {
+        ParamsCalculatorService.energyContainer = energyContainer;
     }
 
-    public ArrayList<Date> getTimeContainer() {
+    public static ArrayList<Date> getTimeContainer() {
         return timeContainer;
     }
 
-    public void setTimeContainer(ArrayList<Date> timeContainer) {
-        this.timeContainer = timeContainer;
+    public static void setTimeContainer(ArrayList<Date> timeContainer) {
+        ParamsCalculatorService.timeContainer = timeContainer;
     }
 
-    public ArrayList<Double> getMouseSpeed() {
+    public static ArrayList<Double> getMouseSpeed() {
         return mouseSpeed;
     }
 
     public void setMouseSpeed(ArrayList<Double> mouseSpeed) {
-        this.mouseSpeed = mouseSpeed;
+        ParamsCalculatorService.mouseSpeed = mouseSpeed;
     }
 
-    public ParamsCalculatorService() {
-        mouseTrack = new ArrayList<Point>();
-        shapeSize = new ArrayList<Integer>();
-        lensContainer = new ArrayList<Double>();
-        clickTimeContainer = new ArrayList<Date>();
-        t = new ArrayList<Double>();
-        ampContainer = new ArrayList<Float[]>();
-        maxDiffTracks = new ArrayList<Double>();
-        midDiffTracks = new ArrayList<Double>();
-        energyContainer = new ArrayList<Double>();
-        timeContainer = new ArrayList<Date>();
-        mouseSpeed = new ArrayList<Double>();
-        mouseTracksContainer = new ArrayList<ArrayList<Point>>();
-        diffContainer = new ArrayList<Double>();
-        distanceLen = new ArrayList<Double>();
-        tracksDiffContainer = new ArrayList<ArrayList<Double>>();
+    public static void reloadFields() {
+        mouseTrack = new ArrayList<>();
+        shapeSize = new ArrayList<>();
+        lensContainer = new ArrayList<>();
+        clickTimeContainer = new ArrayList<>();
+        t = new ArrayList<>();
+        ampContainer = new ArrayList<>();
+        maxDiffTracks = new ArrayList<>();
+        midDiffTracks = new ArrayList<>();
+        energyContainer = new ArrayList<>();
+        timeContainer = new ArrayList<>();
+        mouseSpeed = new ArrayList<>();
+        mouseTracksContainer = new ArrayList<>();
+        diffContainer = new ArrayList<>();
+        distanceLen = new ArrayList<>();
+        tracksDiffContainer = new ArrayList<>();
         mousePoint = new Point(0, 0);
     }
 
@@ -320,7 +319,7 @@ public class ParamsCalculatorService {
      * Method for calculation math expiration for
      * all params and save it in container
      */
-    public void saveMathExpectation() {
+    public static void saveMathExpectation() {
         expirationT = 0;
         maxDiffTracksExpiration = 0;
         midDiffTracksExpiration = 0;
@@ -370,7 +369,7 @@ public class ParamsCalculatorService {
      * Method for calcuulation dispersion for all parameters
      * and save it in container
      */
-    public void saveVariance() {
+    public static void saveVariance() {
         midDiffTracksDispertion = 0;
         for (int i = 1; i < midDiffTracks.size(); i++) {
             midDiffTracksDispertion = Math.sqrt((i - 1) * midDiffTracksDispertion * midDiffTracksDispertion
@@ -427,19 +426,20 @@ public class ParamsCalculatorService {
     /**
      * Calculation of middle speed of mouse moving
      */
-    public void saveMidV(Date time) {
+    public static void saveMidV(Long testTime) {
         double temp = 0;
         for (int i = 1; i < mouseTrack.size(); i++) {
             temp += Math.sqrt(Math.pow(mouseTrack.get(i).getX() - mouseTrack.get(i - 1).getX(), 2))
                     + Math.sqrt(Math.pow(mouseTrack.get(i).getY() - mouseTrack.get(i-1).getY(), 2));
         }
-        midMouseSpeed = temp * 10000000 / time.getTime();
+        midMouseSpeed = temp / testTime;
     }
 
     /**
      * Method for calculation and final save params in containers
      */
-    public void saveAllParams(int buttonSize, Point buttonPos, int counter, Date time) {
+    public static void saveAllParams(int buttonSize, Point buttonPos, int counter, Long timeRange) {
+        mouseTracksContainer.add(mouseTrack);
         double a;
         double c;
         try {
@@ -455,8 +455,7 @@ public class ParamsCalculatorService {
         shapeSize.add(buttonSize);
         midDiffTracks.add(0.0);
 
-        for (int i = 0; i < mouseTracksContainer.get(counter).size(); i++)
-        {
+        for (int i = 0; i < mouseTracksContainer.get(counter).size(); i++) {
             diffContainer.add(Math.abs(a * mouseTracksContainer.get(counter).get(i).getX() +
                     mouseTracksContainer.get(counter).get(i).getY() + c) / Math.sqrt(a * a + 1));
             midDiffTracks.set(midDiffTracks.size() - 1,
@@ -465,8 +464,7 @@ public class ParamsCalculatorService {
         midDiffTracks.set(midDiffTracks.size() - 1, midDiffTracks.get(midDiffTracks.size() - 1) / diffContainer.size()/
                 lensContainer.get(lensContainer.size() - 1));
 
-        for (int i = 0; i < mouseTracksContainer.get(counter).size() - 1; i++)
-        {
+        for (int i = 0; i < mouseTracksContainer.get(counter).size() - 1; i++) {
             distanceLen.add(Math.sqrt(Math.pow(mouseTracksContainer.get(counter).get(i).getX() -
                     mouseTracksContainer.get(counter).get(i + 1).getX(), 2)) +
                     Math.sqrt(Math.pow(mouseTracksContainer.get(counter).get(i).getY() -
@@ -484,8 +482,7 @@ public class ParamsCalculatorService {
         float[] ar = new float[n];
         float[] ai = new float[n];
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             if (i < distanceLen.size()) ar[i] = Float.parseFloat(distanceLen.get(i).toString());
             else ar[i] = 0;
             ai[i] = 0;
@@ -495,15 +492,13 @@ public class ParamsCalculatorService {
 
         float[] am = new float[n];
         double energy = 0;
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             ar[ar.length - i - 1] = ar[ar.length - i - 1] - ar[i];
             ai[ai.length - i - 1] = ai[ai.length - i - 1] + ai[i];
             am[i] = ((ar[i] * ar[i] + ai[i] * ai[i]) / am.length);
         }
 
-        for (int i = 0; i < distanceLen.size(); i++)
-        {
+        for (int i = 0; i < distanceLen.size(); i++) {
             temp += i;
             energy += Math.pow(i, 2);
         }
@@ -514,14 +509,14 @@ public class ParamsCalculatorService {
 
         ampContainer.add(amp);
 
-        mouseSpeed.add(temp * 10000000 / time.getTime() / lensContainer.get(lensContainer.size() - 1));
+        mouseSpeed.add(temp * 10000000 / timeRange / lensContainer.get(lensContainer.size() - 1));
         tracksDiffContainer.add(diffContainer);
         diffContainer = new ArrayList<>();
 
         mousePoint = new Point(buttonPos);
     }
 
-    public void saveMouseTrack(Point mousePos) {
+    public static void saveMouseTrack(Point mousePos) {
         mouseTrack.add(mousePos);
     }
 }
