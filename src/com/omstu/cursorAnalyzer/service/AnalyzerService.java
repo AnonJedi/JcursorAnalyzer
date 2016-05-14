@@ -35,10 +35,13 @@ public class AnalyzerService {
         }
         ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
 
-        ParamsCalculatorService.saveAllParams(buttonSize, buttonPos, clickCounter,
-                ParamsCalculatorService.getClickTimeContainer().get(
-                        ParamsCalculatorService.getClickTimeContainer().size() - 1));
-        return clickCounter++;
+        if (ParamsCalculatorService.getMouseTrack().size() != 0) {
+            ParamsCalculatorService.saveAllParams(buttonSize, buttonPos, clickCounter,
+                    ParamsCalculatorService.getClickTimeContainer().get(
+                            ParamsCalculatorService.getClickTimeContainer().size() - 1));
+            clickCounter++;
+        }
+        return clickCounter;
     }
 
     /**

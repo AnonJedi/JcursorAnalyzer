@@ -26,8 +26,8 @@ public class TestButtonClickController extends MouseAdapter {
                 .getComponent(Common.USER_TEST_COUNTER_NUMBER);
         counter.setText(String.valueOf(AnalyzerService.parseClickParams(size, e.getPoint())));
 
-        Button newButton = generatorService.generateNewButton(oldButton, 900, 700);
         Panel testArea = (Panel) e.getComponent().getParent();
+        Button newButton = generatorService.generateNewButton(oldButton, testArea.getWidth(), testArea.getHeight());
         testArea.removeAll();
         testArea.add(newButton);
         oldButton = newButton;

@@ -19,7 +19,7 @@ public class ButtonGeneratorService {
         int size = random.nextInt(180) + 20;
         int x = random.nextInt(areaWidth - size);
         int y = random.nextInt(areaHeight - size);
-        newButton.setBounds(x, y, size, size);
+        newButton.setBounds(x >= 0 ? x : 0, y >= 0 ? y : 0, size, size);
         newButton.addMouseListener(new TestButtonClickController());
         return newButton;
     }
