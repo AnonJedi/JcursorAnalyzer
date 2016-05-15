@@ -1,5 +1,14 @@
 package com.omstu.cursorAnalyzer.service;
 
+import com.omstu.cursorAnalyzer.common.Common;
+import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
+import com.omstu.cursorAnalyzer.exceptions.ServiceException;
+import com.omstu.cursorAnalyzer.repository.UserRepository;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -455,20 +464,20 @@ public class ParamsCalculatorService {
         shapeSize.add(buttonSize);
         midDiffTracks.add(0.0);
 
-        for (int i = 0; i < mouseTracksContainer.get(counter).size(); i++) {
-            diffContainer.add(Math.abs(a * mouseTracksContainer.get(counter).get(i).getX() +
-                    mouseTracksContainer.get(counter).get(i).getY() + c) / Math.sqrt(a * a + 1));
+        for (int i = 0; i < mouseTracksContainer.get(counter-1).size(); i++) {
+            diffContainer.add(Math.abs(a * mouseTracksContainer.get(counter-1).get(i).getX() +
+                    mouseTracksContainer.get(counter-1).get(i).getY() + c) / Math.sqrt(a * a + 1));
             midDiffTracks.set(midDiffTracks.size() - 1,
                     midDiffTracks.get(midDiffTracks.size() - 1) + diffContainer.get(diffContainer.size() - 1));
         }
         midDiffTracks.set(midDiffTracks.size() - 1, midDiffTracks.get(midDiffTracks.size() - 1) / diffContainer.size()/
                 lensContainer.get(lensContainer.size() - 1));
 
-        for (int i = 0; i < mouseTracksContainer.get(counter).size() - 1; i++) {
-            distanceLen.add(Math.sqrt(Math.pow(mouseTracksContainer.get(counter).get(i).getX() -
-                    mouseTracksContainer.get(counter).get(i + 1).getX(), 2)) +
-                    Math.sqrt(Math.pow(mouseTracksContainer.get(counter).get(i).getY() -
-                            mouseTracksContainer.get(counter).get(i + 1).getY(), 2)));
+        for (int i = 0; i < mouseTracksContainer.get(counter-1).size() - 1; i++) {
+            distanceLen.add(Math.sqrt(Math.pow(mouseTracksContainer.get(counter-1).get(i).getX() -
+                    mouseTracksContainer.get(counter-1).get(i + 1).getX(), 2)) +
+                    Math.sqrt(Math.pow(mouseTracksContainer.get(counter-1).get(i).getY() -
+                            mouseTracksContainer.get(counter-1).get(i + 1).getY(), 2)));
         }
 
         double max = diffContainer.get(0);
@@ -518,5 +527,95 @@ public class ParamsCalculatorService {
 
     public static void saveMouseTrack(Point mousePos) {
         mouseTrack.add(mousePos);
+    }
+
+    public static void saveMouseParamsAndMetrics(
+            ArrayList<Double> midDiffTracks, ArrayList<Double> maxDiffTracks, ArrayList<Double> T,
+            ArrayList<Float[]> ampContainer, ArrayList<Double> mouseSpeed, ArrayList<Double> energyContainer,
+            ArrayList<Double> distanceLen) throws ServiceException {
+
+        UserRepository repository = new UserRepository(Common.DB_PATH);
+        try {
+            Document document = repository.getXMLDocument();
+            Node features = document.getElementsByTagName("Features").item(0);
+            Node classNode = features.getLastChild();
+
+            for (int i = 0; i < midDiffTracks.size(); i++) {
+                Element realizationNode = document.createElement("Realization");
+
+                Element featureNode = document.createElement("Feature");
+                Attr idAttribute = document.createAttribute("id");
+                idAttribute.setValue("1");
+                Attr valueAttribute = document.createAttribute("value");
+                valueAttribute.setValue(midDiffTracks.get(i).toString());
+                featureNode.setAttributeNode(idAttribute);
+                featureNode.setAttributeNode(valueAttribute);
+                realizationNode.appendChild(featureNode);
+
+                featureNode = document.createElement("Feature");
+                idAttribute = document.createAttribute("id");
+                idAttribute.setValue("2");
+                valueAttribute = document.createAttribute("value");
+                valueAttribute.setValue(maxDiffTracks.get(i).toString());
+                featureNode.setAttributeNode(idAttribute);
+                featureNode.setAttributeNode(valueAttribute);
+                realizationNode.appendChild(featureNode);
+
+                featureNode = document.createElement("Feature");
+                idAttribute = document.createAttribute("id");
+                idAttribute.setValue("3");
+                valueAttribute = document.createAttribute("value");
+                valueAttribute.setValue(T.get(i).toString());
+                featureNode.setAttributeNode(idAttribute);
+                featureNode.setAttributeNode(valueAttribute);
+                realizationNode.appendChild(featureNode);
+
+                for (int j = 0; j < 10; j++) {
+                    featureNode = document.createElement("Feature");
+                    idAttribute = document.createAttribute("id");
+                    idAttribute.setValue(String.valueOf(j + 4));
+                    valueAttribute = document.createAttribute("value");
+                    valueAttribute.setValue(ampContainer.get(i)[j].toString());
+                    featureNode.setAttributeNode(idAttribute);
+                    featureNode.setAttributeNode(valueAttribute);
+                    realizationNode.appendChild(featureNode);
+                }
+
+                featureNode = document.createElement("Feature");
+                idAttribute = document.createAttribute("id");
+                idAttribute.setValue("14");
+                valueAttribute = document.createAttribute("value");
+                valueAttribute.setValue(mouseSpeed.get(i).toString());
+                featureNode.setAttributeNode(idAttribute);
+                featureNode.setAttributeNode(valueAttribute);
+                realizationNode.appendChild(featureNode);
+
+                featureNode = document.createElement("Feature");
+                idAttribute = document.createAttribute("id");
+                idAttribute.setValue("15");
+                valueAttribute = document.createAttribute("value");
+                valueAttribute.setValue(energyContainer.get(i).toString());
+                featureNode.setAttributeNode(idAttribute);
+                featureNode.setAttributeNode(valueAttribute);
+                realizationNode.appendChild(featureNode);
+
+                featureNode = document.createElement("Feature");
+                idAttribute = document.createAttribute("id");
+                idAttribute.setValue("16");
+                valueAttribute = document.createAttribute("value");
+                valueAttribute.setValue(distanceLen.get(i).toString());
+                featureNode.setAttributeNode(idAttribute);
+                featureNode.setAttributeNode(valueAttribute);
+                realizationNode.appendChild(featureNode);
+
+                classNode.appendChild(realizationNode);
+            }
+
+            features.appendChild(classNode);
+            repository.insert(document);
+        } catch (RepositoryException e) {
+            e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
     }
 }

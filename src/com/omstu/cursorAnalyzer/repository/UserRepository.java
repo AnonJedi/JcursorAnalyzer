@@ -26,7 +26,7 @@ public class UserRepository {
 
     public Document getXMLDocument() throws RepositoryException {
         try {
-            builderFactory.setValidating(true);
+            builderFactory.setValidating(false);
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(DBPath);
         } catch (FileNotFoundException e) {
@@ -55,7 +55,7 @@ public class UserRepository {
         }
     }
 
-    public void create(Document document) throws RepositoryException {
+    public void insert(Document document) throws RepositoryException {
         try {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);

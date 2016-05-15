@@ -1,6 +1,6 @@
 package com.omstu.cursorAnalyzer.service;
 
-import com.omstu.cursorAnalyzer.repository.MetricsRepository;
+import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,23 +32,21 @@ public class AnalyzerService {
             ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
             ParamsCalculatorService.getMouseTracksContainer().add(ParamsCalculatorService.getMouseTrack());
             ParamsCalculatorService.setMouseTrack(new ArrayList<>());
-        }
-        ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
 
-        if (ParamsCalculatorService.getMouseTrack().size() != 0) {
+            ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
+
             ParamsCalculatorService.saveAllParams(buttonSize, buttonPos, clickCounter,
                     ParamsCalculatorService.getClickTimeContainer().get(
                             ParamsCalculatorService.getClickTimeContainer().size() - 1));
-            clickCounter++;
         }
-        return clickCounter;
+        return clickCounter++;
     }
 
     /**
      * Method for saving result data in DB
      * @param isStore
      */
-    public static void stopTest(boolean isStore) {
+    public static void stopTest(boolean isStore) throws ServiceException {
         if (clickCounter > 1) {
             Long testTime = currentClickTime.getTime() - beginTestTime.getTime();
             ParamsCalculatorService.saveMidV(testTime);
@@ -57,11 +55,11 @@ public class AnalyzerService {
         }
         if (isStore)
         {
-            MetricsRepository repository = new MetricsRepository();
-            repository.saveMouseParamsAndMetrics(ParamsCalculatorService.getMidDiffTracks(),
+            ParamsCalculatorService.saveMouseParamsAndMetrics(ParamsCalculatorService.getMidDiffTracks(),
                     ParamsCalculatorService.getMaxDiffTracks(), ParamsCalculatorService.getT(),
                     ParamsCalculatorService.getAmpContainer(), ParamsCalculatorService.getMouseSpeed(),
                     ParamsCalculatorService.getEnergyContainer(), ParamsCalculatorService.getLensContainer());
+
         }
 
         ParamsCalculatorService.reloadFields();
