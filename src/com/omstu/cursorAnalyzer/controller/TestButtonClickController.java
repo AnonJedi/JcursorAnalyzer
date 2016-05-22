@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class TestButtonClickController extends MouseAdapter {
 
     private ButtonGeneratorService generatorService;
-    private Button oldButton;
+    public static Button oldButton;
 
     public TestButtonClickController() {
         this.generatorService = new ButtonGeneratorService();

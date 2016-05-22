@@ -27,7 +27,8 @@ public class StartStopButtonClickController extends MouseAdapter {
                 .getComponent(Common.TEST_AREA_NUMBER);
         if (button.getLabel().equals("Start")) {
             button.setLabel("Stop");
-            testArea.add(generatorService.generateNewButton(null, 900, 700));
+            TestButtonClickController.oldButton = generatorService.generateNewButton(900, 700);
+            testArea.add(TestButtonClickController.oldButton);
             testArea.addMouseMotionListener(new ActionAreaClickController());
             ParamsCalculatorService.reloadFields();
         } else {
