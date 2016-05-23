@@ -50,7 +50,7 @@ public class ParamsCalculatorService {
     private static ArrayList<Long> clickTimeContainer;
 
     //средняя скорость движения мыши
-    private static double midMouseSpeed;
+    private static Double midMouseSpeed;
 
     //хранилище Т
     private static ArrayList<Double> t;
@@ -177,11 +177,11 @@ public class ParamsCalculatorService {
         ParamsCalculatorService.clickTimeContainer = clickTimeContainer;
     }
 
-    public static double getMidMouseSpeed() {
+    public static Double getMidMouseSpeed() {
         return midMouseSpeed;
     }
 
-    public static void setMidMouseSpeed(double midMouseSpeed) {
+    public static void setMidMouseSpeed(Double midMouseSpeed) {
         ParamsCalculatorService.midMouseSpeed = midMouseSpeed;
     }
 
@@ -441,7 +441,7 @@ public class ParamsCalculatorService {
             temp += Math.sqrt(Math.pow(mouseTrack.get(i).getX() - mouseTrack.get(i - 1).getX(), 2))
                     + Math.sqrt(Math.pow(mouseTrack.get(i).getY() - mouseTrack.get(i-1).getY(), 2));
         }
-        midMouseSpeed = temp / testTime;
+        midMouseSpeed = temp * 1000 / testTime;
     }
 
     /**
@@ -486,7 +486,7 @@ public class ParamsCalculatorService {
         maxDiffTracks.add(max / lensContainer.get(lensContainer.size() - 1));
 
         int n = 128;
-        double temp = 0;
+        double len = mouseTrack.size();
 
         float[] ar = new float[n];
         float[] ai = new float[n];
@@ -507,18 +507,14 @@ public class ParamsCalculatorService {
             am[i] = ((ar[i] * ar[i] + ai[i] * ai[i]) / am.length);
         }
 
-        for (int i = 0; i < distanceLen.size(); i++) {
-            temp += i;
-            energy += Math.pow(i, 2);
-        }
-
-        energyContainer.add(energy);
         Float[] amp = new Float[n];
+        for (Float f : am) energy += f*f;
         for (int i = 0; i < n; i++) amp[i] = am[i] / (float)energy;
+        energyContainer.add(energy);
 
         ampContainer.add(amp);
 
-        mouseSpeed.add(temp * 10000000 / timeRange / lensContainer.get(lensContainer.size() - 1));
+        mouseSpeed.add((double) (mouseTrack.size() * 1000 / timeRange));
         tracksDiffContainer.add(diffContainer);
         diffContainer = new ArrayList<>();
 

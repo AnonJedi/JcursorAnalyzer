@@ -1,6 +1,8 @@
 package com.omstu.cursorAnalyzer.service;
 
 import com.omstu.cursorAnalyzer.exceptions.ServiceException;
+import com.sun.media.sound.*;
+import com.sun.media.sound.FFT;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,29 +19,22 @@ public class AnalyzerService {
      * and save params to class-container
      */
     public static int parseClickParams(int buttonSize, Point buttonPos) {
-        Long timeRangeBetweenClicks;
+        Date previousClickTime = currentClickTime;
+        currentClickTime = new Date();
         if (clickCounter == 0) {
             beginTestTime = new Date();
-            timeRangeBetweenClicks = 0L;
-            currentClickTime = new Date();
-            ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
-        }
-        else
-        {
-            Date previousClickTime = currentClickTime;
-            currentClickTime = new Date();
-            timeRangeBetweenClicks = currentClickTime.getTime() - previousClickTime.getTime();
-            ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
-            ParamsCalculatorService.getMouseTracksContainer().add(ParamsCalculatorService.getMouseTrack());
-            ParamsCalculatorService.setMouseTrack(new ArrayList<>());
 
+            clickCounter++;
+        } else if (ParamsCalculatorService.getMouseTrack().size() >= 64) {
+            Long timeRangeBetweenClicks = currentClickTime.getTime() - previousClickTime.getTime();
             ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
-
-            ParamsCalculatorService.saveAllParams(buttonSize, buttonPos, clickCounter,
-                    ParamsCalculatorService.getClickTimeContainer().get(
-                            ParamsCalculatorService.getClickTimeContainer().size() - 1));
+            ParamsCalculatorService.saveAllParams(
+                    buttonSize, buttonPos, clickCounter,
+                    timeRangeBetweenClicks);
+            clickCounter++;
         }
-        return clickCounter++;
+        ParamsCalculatorService.setMouseTrack(new ArrayList<>());
+        return clickCounter;
     }
 
     /**
@@ -53,13 +48,11 @@ public class AnalyzerService {
             ParamsCalculatorService.saveMathExpectation();
             ParamsCalculatorService.saveVariance();
         }
-        if (isStore)
-        {
+        if (isStore) {
             ParamsCalculatorService.saveMouseParamsAndMetrics(ParamsCalculatorService.getMidDiffTracks(),
                     ParamsCalculatorService.getMaxDiffTracks(), ParamsCalculatorService.getT(),
                     ParamsCalculatorService.getAmpContainer(), ParamsCalculatorService.getMouseSpeed(),
                     ParamsCalculatorService.getEnergyContainer(), ParamsCalculatorService.getLensContainer());
-
         }
 
         ParamsCalculatorService.reloadFields();
