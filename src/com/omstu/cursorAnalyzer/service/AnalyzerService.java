@@ -1,6 +1,8 @@
 package com.omstu.cursorAnalyzer.service;
 
+import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
 import com.omstu.cursorAnalyzer.exceptions.ServiceException;
+import com.omstu.cursorAnalyzer.repository.ParamsRepository;
 import com.sun.media.sound.*;
 import com.sun.media.sound.FFT;
 
@@ -26,6 +28,11 @@ public class AnalyzerService {
 
             clickCounter++;
         } else if (ParamsCalculatorService.getMouseTrack().size() >= 64) {
+            try {
+                ParamsRepository.savePoints(ParamsCalculatorService.getMouseTrack());
+            } catch (RepositoryException e) {
+                System.out.println(e.getMessage());
+            }
             Long timeRangeBetweenClicks = currentClickTime.getTime() - previousClickTime.getTime();
             ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
             ParamsCalculatorService.saveAllParams(
