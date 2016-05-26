@@ -1,21 +1,58 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><Classes>
+<?xml version="1.0" encoding="windows-1251" standalone="no"?>
+<Classes lang="en">
   <Specification description="Эксперимент проводился в обычных условиях">
-    <Feature description="Cmid" id="1"/>
-    <Feature description="Cmax" id="2"/>
-    <Feature description="T" id="3"/>
-    <Feature description="Первая амплитуда" id="4"/>
-    <Feature description="Вторая амплитуда" id="5"/>
-    <Feature description="Третья амплитуда" id="6"/>
-    <Feature description="Четвёртая амплитуда" id="7"/>
-    <Feature description="Пятая амплитуда" id="8"/>
-    <Feature description="Шестая амплитуда" id="9"/>
-    <Feature description="Седьмая амплитуда" id="10"/>
-    <Feature description="Восьмая амплитуда" id="11"/>
-    <Feature description="Девятая амплитуда" id="12"/>
-    <Feature description="Десятая амплитуда" id="13"/>
-    <Feature description="Скорость мыши" id="14"/>
-    <Feature description="Энергия" id="15"/>
-    <Feature description="Длинна пути" id="16"/>
+    <Feature description="First amplitude" id="1"/>
+    <Feature description="Second amplitude" id="2"/>
+    <Feature description="Third amplitude" id="3"/>
+    <Feature description="Fourth amplitude" id="4"/>
+    <Feature description="Fifth amplitude" id="5"/>
+    <Feature description="Sixth amplitude" id="6"/>
+    <Feature description="Seventh amplitude" id="7"/>
+    <Feature description="Eighth amplitude" id="8"/>
+    <Feature description="Ninth amplitude" id="9"/>
+    <Feature description="Tenth amplitude" id="10"/>
+    <Feature description="Eleventh amplitude" id="11"/>
+    <Feature description="Twelfth amplitude" id="12"/>
+    <Feature description="Thirteenth amplitude" id="13"/>
+    <Feature description="Fourteenth amplitude" id="14"/>
+    <Feature description="Fifteenth amplitude" id="15"/>
+    <Feature description="Energy" id="16"/>
+    <Feature description="First normalized amplitude" id="17"/>
+    <Feature description="Second normalized amplitude" id="18"/>
+    <Feature description="Third normalized amplitude" id="19"/>
+    <Feature description="Fourth normalized amplitude" id="20"/>
+    <Feature description="Fifth normalized amplitude" id="21"/>
+    <Feature description="Sixth normalized amplitude" id="22"/>
+    <Feature description="Seventh normalized amplitude" id="23"/>
+    <Feature description="Eighth normalized amplitude" id="24"/>
+    <Feature description="Ninth normalized amplitude" id="25"/>
+    <Feature description="Tenth normalized amplitude" id="26"/>
+    <Feature description="Eleventh normalized amplitude" id="27"/>
+    <Feature description="Twelfth normalized amplitude" id="28"/>
+    <Feature description="Thirteenth normalized amplitude" id="29"/>
+    <Feature description="Fourteenth normalized amplitude" id="30"/>
+    <Feature description="Fifteenth normalized amplitude" id="31"/>
+    <Feature description="Sfact / Smin" id="32"/>
+    <Feature description="b" id="33"/>
+    <Feature description="D" id="34"/>
+    <Feature description="W" id="35"/>
+    <Feature description="Normalized energy" id="36"/>
+    <Feature description="First normalized amplitude by energy and log" id="37"/>
+    <Feature description="Second normalized amplitude by energy and log" id="38"/>
+    <Feature description="Third normalized amplitude by energy and log" id="39"/>
+    <Feature description="Fourth normalized amplitude by energy and log" id="40"/>
+    <Feature description="Fifth normalized amplitude by energy and log" id="41"/>
+    <Feature description="Sixth normalized amplitude by energy and log" id="42"/>
+    <Feature description="Seventh normalized amplitude by energy and log" id="43"/>
+    <Feature description="Eighth normalized amplitude by energy and log" id="44"/>
+    <Feature description="Ninth normalized amplitude by energy and log" id="45"/>
+    <Feature description="Tenth normalized amplitude by energy and log" id="46"/>
+    <Feature description="Eleventh normalized amplitude by energy and log" id="47"/>
+    <Feature description="Twelfth normalized amplitude by energy and log" id="48"/>
+    <Feature description="Thirteenth normalized amplitude by energy and log" id="49"/>
+    <Feature description="Fourteenth normalized amplitude by energy and log" id="50"/>
+    <Feature description="Fifteenth normalized amplitude by energy and log" id="51"/>
+    <Feature description="Normalized Sfact / Smin" id="52"/>
   </Specification>
   <Features></Features>
 </Classes>
