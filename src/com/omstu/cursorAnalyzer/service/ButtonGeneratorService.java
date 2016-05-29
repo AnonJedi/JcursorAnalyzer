@@ -28,8 +28,8 @@ public class ButtonGeneratorService {
             newY = random.nextInt(areaHeight - size);
             buttonsLen = Math.sqrt(Math.pow(newX - oldX, 2) + Math.pow(newY - oldY, 2));
         }
-
         newButton.setBounds(newX >= 0 ? newX : 0, newY >= 0 ? newY : 0, size, size);
+        newButton.setBackground(new Color(135, 0, 201));
         newButton.addMouseListener(new TestButtonClickController());
         return newButton;
     }
@@ -40,6 +40,7 @@ public class ButtonGeneratorService {
         int x = random.nextInt(areaWidth - size);
         int y = random.nextInt(areaHeight - size);
         newButton.setBounds(x >= 0 ? x : 0, y >= 0 ? y : 0, size, size);
+        newButton.setBackground(new Color(135, 0, 201));
         newButton.addMouseListener(new TestButtonClickController());
         return newButton;
     }
