@@ -3,8 +3,10 @@ package com.omstu.cursorAnalyzer.service;
 import com.omstu.cursorAnalyzer.common.Common;
 import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
 import com.omstu.cursorAnalyzer.exceptions.ServiceException;
+import com.omstu.cursorAnalyzer.external.Complex;
 import com.omstu.cursorAnalyzer.external.FFT;
 import com.omstu.cursorAnalyzer.repository.UserRepository;
+import com.sun.org.apache.bcel.internal.generic.FLOAD;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -65,6 +67,10 @@ public class ParamsCalculatorService {
 
     //текущая скорость движения мыши
     private static ArrayList<Double> mouseSpeed;
+
+    private static ArrayList<Float[]> normalizedAnmContainer;
+
+    private static ArrayList<Float[]> logAmpContainer;
 
     public static Point getMousePoint() {
         return mousePoint;
@@ -168,6 +174,7 @@ public class ParamsCalculatorService {
         lensContainer = new ArrayList<>();
         clickTimeContainer = new ArrayList<>();
         ampContainer = new ArrayList<>();
+        normalizedAnmContainer = new ArrayList<>();
         energyContainer = new ArrayList<>();
         timeContainer = new ArrayList<>();
         mouseSpeed = new ArrayList<>();
@@ -218,50 +225,38 @@ public class ParamsCalculatorService {
      * Method for calculation and final save params in containers
      */
     //TODO remastered all calculations
-    public static void saveAllParams(int buttonSize, Point buttonPos, int counter, Long timeRange) {
-        int n = 64;
+    public static void saveAllParams(Point prevPos, Point currentPos) {
+        int size = 64;
 
-        float[] ar = new float[n];
-        float[] ai = new float[n];
-
-        for (int i = 0; i < n; i++) {
-            if (i < mouseTrack.size()) ar[i] = Float.parseFloat(distanceLen.get(i).toString());
-            else ar[i] = 0;
-            ai[i] = 0;
+        double distance = Math.sqrt(Math.pow(prevPos.getX() - currentPos.getX(), 2) +
+                Math.pow(prevPos.getY() - currentPos.getY(), 2));
+        distanceLen
+        double[] V = new double[mouseTrack.size()];
+        for (int i = 0; i < mouseTrack.size() - 1; i++) {
+            V[i] = Math.sqrt(
+                    Math.pow(mouseTrack.get(i).getX() - mouseTrack.get(i + 1).getX(), 2) +
+                    Math.pow(mouseTrack.get(i).getY() - mouseTrack.get(i + 1).getY(), 2));
         }
 
-//        FFT.ComplexToComplex(-1, n, ar, ai);
+        Complex[] fft = FFT.ifft(FFT.fft(V), size);
 
-        float[] am = new float[n];
         double energy = 0;
-        for (int i = 0; i < n; i++) {
-            ar[ar.length - i - 1] = ar[ar.length - i - 1] - ar[i];
-            ai[ai.length - i - 1] = ai[ai.length - i - 1] + ai[i];
-            am[i] = ((ar[i] * ar[i] + ai[i] * ai[i]) / am.length);
+        for (Complex amp : fft) energy += amp.im * amp.im;
+
+        Float[] amps = new Float[15];
+        Float[] normalizedAmp = new Float[15];
+        Float[] logAmp = new Float[15];
+        for (int i = 0; i < 15; i++) {
+            Float amp = fft[i].im;
+            amps[i] = amp;
+            normalizedAmp[i] = amp / ((float) energy);
         }
 
-        Float[] amp = new Float[n];
-        for (Float f : am) energy += f*f;
-        for (int i = 0; i < n; i++) amp[i] = am[i] / (float)energy;
+        ampContainer.add(amps);
+        normalizedAnmContainer.add(normalizedAmp);
         energyContainer.add(energy);
 
-        ampContainer.add(amp);
-
-        mouseTracksContainer.add(mouseTrack);
-
-        lensContainer.add(Math.sqrt(Math.pow(buttonPos.getX() + buttonSize / 2 - mousePoint.getX() + buttonSize / 2, 2))
-                + Math.sqrt(Math.pow(buttonPos.getY() + buttonSize / 2 - mousePoint.getY() + buttonSize / 2, 2)));
-        shapeSize.add(buttonSize);
-        for (int i = 0; i < mouseTrack.size() - 1; i++) {
-            distanceLen.add(Math.sqrt(Math.pow(mouseTracksContainer.get(counter-1).get(i).getX() -
-                    mouseTracksContainer.get(counter-1).get(i + 1).getX(), 2)) +
-                    Math.sqrt(Math.pow(mouseTracksContainer.get(counter-1).get(i).getY() -
-                            mouseTracksContainer.get(counter-1).get(i + 1).getY(), 2)));
-        }
-
-        mouseSpeed.add((double) (mouseTrack.size() * 1000 / timeRange));
-
-        mousePoint = new Point(buttonPos);
+        amps = new Float[15];
     }
 
     public static void saveMouseTrack(Point mousePos) {
