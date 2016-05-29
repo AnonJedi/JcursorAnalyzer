@@ -30,6 +30,7 @@ public class TestButtonClickController extends MouseAdapter {
         Button newButton = generatorService.generateNewButton(oldButton, testArea.getWidth(), testArea.getHeight());
         testArea.removeAll();
         testArea.add(newButton);
+        newButton.setVisible(true);
         oldButton = newButton;
     }
 }
