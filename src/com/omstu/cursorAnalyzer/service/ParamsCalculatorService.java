@@ -74,7 +74,7 @@ public class ParamsCalculatorService {
         mouseTrack.add(mousePos);
     }
 
-    private static Complex[] calculateAmps(ArrayList<Point> tracks, long time) {
+    private static double[] calculateAmps(ArrayList<Point> tracks, long time) {
         double[] V = new double[tracks.size()-1];
         for (int i = 0; i < tracks.size() - 1; i++) {
             V[i] = Math.sqrt(
@@ -82,7 +82,17 @@ public class ParamsCalculatorService {
                             Math.pow(tracks.get(i).getY() - tracks.get(i+1).getY(), 2)
             ) * 1000 / time;
         }
-        return FFT.ifft(FFT.fft(V, Common.NUMBER_OF_COUNTS));
+        Complex[] ifft = FFT.ifft(FFT.fft(V, Common.NUMBER_OF_COUNTS));
+        Complex[] fft = FFT.fft(ifft);
+        double[] amps = new double[fft.length];
+        for (int i = 1; i < fft.length; i++) {
+            fft[fft.length - i].re -= fft[i].re;
+            fft[fft.length - i].im += fft[i].im;
+        }
+        for (int i = 0; i < amps.length; i++) {
+            amps[i] = Math.sqrt(fft[i].re * fft[i].re + fft[i].im * fft[i].im) * 2 / fft.length;
+        }
+        return amps;
     }
 
     static void saveMouseParamsAndMetrics(int counter) throws ServiceException {
@@ -96,10 +106,10 @@ public class ParamsCalculatorService {
             for (int i = 0; i < counter - 1; i++) {
                 Element realizationNode = document.createElement("Realization");
                 ArrayList<Point> tracks = mouseTracksContainer.get(i);
-                Complex[] amps = calculateAmps(tracks, clickTimeContainer.get(i));
+                double[] amps = calculateAmps(tracks, clickTimeContainer.get(i));
 
                 int energy = 0;
-                for (Complex c : amps) energy += c.re * c.re;
+                for (double d : amps) energy += d * d;
                 //save energy into xml
                 realizationNode.appendChild(
                         buildXmlFeatureNode(document, "16", String.valueOf(energy)));
@@ -109,13 +119,13 @@ public class ParamsCalculatorService {
                 for (int j = 0; j < Common.AMPS_COUNT; j++) {
                     realizationNode.appendChild(
                             buildXmlFeatureNode(document, String.valueOf(j + 1),
-                                                String.valueOf(amps[j].re)));
+                                                String.valueOf(amps[j])));
                     realizationNode.appendChild(
                             buildXmlFeatureNode(document, String.valueOf(j + 17),
-                                                String.valueOf(amps[j].re / energy)));
+                                                String.valueOf(amps[j] / energy)));
                     realizationNode.appendChild(
                             buildXmlFeatureNode(document, String.valueOf(j + 37),
-                                                String.valueOf(amps[j].re / (energy * normalizedLog))));
+                                                String.valueOf(amps[j] / (energy * normalizedLog))));
                 }
 
                 //save Sfact/Smin param into xml

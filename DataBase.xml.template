@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1251" standalone="no"?>
 <Classes lang="en">
-  <Specification description="Эксперимент проводился в обычных условиях">
+  <Specification description="Experiment in normal conditions">
     <Feature description="First amplitude" id="1"/>
     <Feature description="Second amplitude" id="2"/>
     <Feature description="Third amplitude" id="3"/>
