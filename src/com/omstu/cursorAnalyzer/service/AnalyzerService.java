@@ -1,6 +1,10 @@
 package com.omstu.cursorAnalyzer.service;
 
-import com.omstu.cursorAnalyzer.repository.MetricsRepository;
+import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
+import com.omstu.cursorAnalyzer.exceptions.ServiceException;
+import com.omstu.cursorAnalyzer.repository.ParamsRepository;
+import com.sun.media.sound.*;
+import com.sun.media.sound.FFT;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,56 +13,42 @@ import java.util.Date;
 public class AnalyzerService {
 
     private static int clickCounter = 0; //counter of clicked buttons
-    private static Date beginTestTime; //test time
     private static Date currentClickTime; //current click
+    private static Point previousButtonPos;
 
     /**
-     * Method for parse mouse metrics and time betveen clicks
+     * Method for parse mouse metrics and time between clicks
      * and save params to class-container
      */
     public static int parseClickParams(int buttonSize, Point buttonPos) {
-        Long timeRangeBetweenClicks;
+        Date previousClickTime = currentClickTime;
+        currentClickTime = new Date();
         if (clickCounter == 0) {
-            beginTestTime = new Date();
-            timeRangeBetweenClicks = 0L;
-            currentClickTime = new Date();
+            clickCounter++;
+        } else if (ParamsCalculatorService.getMouseTrack().size() > 64) {
+            try {
+                ParamsRepository.savePoints(ParamsCalculatorService.getMouseTrack());
+            } catch (RepositoryException e) {
+                System.out.println(e.getMessage());
+            }
+            Long timeRangeBetweenClicks = currentClickTime.getTime() - previousClickTime.getTime();
             ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
+            ParamsCalculatorService.saveAllParams(
+                    previousButtonPos, buttonPos, timeRangeBetweenClicks, buttonSize);
+            clickCounter++;
         }
-        else
-        {
-            Date previousClickTime = currentClickTime;
-            currentClickTime = new Date();
-            timeRangeBetweenClicks = currentClickTime.getTime() - previousClickTime.getTime();
-            ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
-            ParamsCalculatorService.getMouseTracksContainer().add(ParamsCalculatorService.getMouseTrack());
-            ParamsCalculatorService.setMouseTrack(new ArrayList<>());
-        }
-        ParamsCalculatorService.getClickTimeContainer().add(timeRangeBetweenClicks);
-
-        ParamsCalculatorService.saveAllParams(buttonSize, buttonPos, clickCounter,
-                ParamsCalculatorService.getClickTimeContainer().get(
-                        ParamsCalculatorService.getClickTimeContainer().size() - 1));
-        return clickCounter++;
+        previousButtonPos = buttonPos;
+        ParamsCalculatorService.setMouseTrack(new ArrayList<>());
+        return clickCounter;
     }
 
     /**
      * Method for saving result data in DB
      * @param isStore
      */
-    public static void stopTest(boolean isStore) {
-        if (clickCounter > 1) {
-            Long testTime = currentClickTime.getTime() - beginTestTime.getTime();
-            ParamsCalculatorService.saveMidV(testTime);
-            ParamsCalculatorService.saveMathExpectation();
-            ParamsCalculatorService.saveVariance();
-        }
-        if (isStore)
-        {
-            MetricsRepository repository = new MetricsRepository();
-            repository.saveMouseParamsAndMetrics(ParamsCalculatorService.getMidDiffTracks(),
-                    ParamsCalculatorService.getMaxDiffTracks(), ParamsCalculatorService.getT(),
-                    ParamsCalculatorService.getAmpContainer(), ParamsCalculatorService.getMouseSpeed(),
-                    ParamsCalculatorService.getEnergyContainer(), ParamsCalculatorService.getLensContainer());
+    public static void stopTest(boolean isStore) throws ServiceException {
+        if (isStore) {
+            ParamsCalculatorService.saveMouseParamsAndMetrics(clickCounter);
         }
 
         ParamsCalculatorService.reloadFields();

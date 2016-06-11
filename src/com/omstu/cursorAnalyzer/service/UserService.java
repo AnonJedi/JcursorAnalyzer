@@ -4,14 +4,10 @@ import com.omstu.cursorAnalyzer.common.Common;
 import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
 import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 import com.omstu.cursorAnalyzer.repository.UserRepository;
-import com.omstu.cursorAnalyzer.view.MessageBox;
-import com.sun.corba.se.impl.orbutil.graph.Node;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import java.util.ArrayList;
 
 public class UserService {
 
@@ -57,7 +53,7 @@ public class UserService {
         classNodes.item(classNodes.getLength() - 1).appendChild(newClass);
 
         try {
-            repository.create(document);
+            repository.insert(document);
         } catch (RepositoryException e) {
             e.printStackTrace();
             throw new ServiceException(e.getMessage());

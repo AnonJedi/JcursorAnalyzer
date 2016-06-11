@@ -2,7 +2,6 @@ package com.omstu.cursorAnalyzer.repository;
 
 import com.omstu.cursorAnalyzer.common.Common;
 import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
-import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,7 +25,7 @@ public class UserRepository {
 
     public Document getXMLDocument() throws RepositoryException {
         try {
-            builderFactory.setValidating(true);
+            builderFactory.setValidating(false);
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(DBPath);
         } catch (FileNotFoundException e) {
@@ -55,7 +54,7 @@ public class UserRepository {
         }
     }
 
-    public void create(Document document) throws RepositoryException {
+    public void insert(Document document) throws RepositoryException {
         try {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);

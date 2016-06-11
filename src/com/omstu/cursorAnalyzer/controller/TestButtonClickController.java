@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class TestButtonClickController extends MouseAdapter {
 
     private ButtonGeneratorService generatorService;
-    private Button oldButton;
+    public static Button oldButton;
 
     public TestButtonClickController() {
         this.generatorService = new ButtonGeneratorService();
@@ -24,12 +24,13 @@ public class TestButtonClickController extends MouseAdapter {
                 .getParent()
                 .getParent()
                 .getComponent(Common.USER_TEST_COUNTER_NUMBER);
-        counter.setText(String.valueOf(AnalyzerService.parseClickParams(size, e.getPoint())));
+        counter.setText(String.valueOf(AnalyzerService.parseClickParams(size, e.getComponent().getLocation())));
 
-        Button newButton = generatorService.generateNewButton(oldButton, 900, 700);
         Panel testArea = (Panel) e.getComponent().getParent();
+        Button newButton = generatorService.generateNewButton(oldButton, testArea.getWidth(), testArea.getHeight());
         testArea.removeAll();
         testArea.add(newButton);
+        newButton.setVisible(true);
         oldButton = newButton;
     }
 }

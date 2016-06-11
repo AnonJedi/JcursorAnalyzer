@@ -1,9 +1,11 @@
 package com.omstu.cursorAnalyzer.controller;
 
 import com.omstu.cursorAnalyzer.common.Common;
+import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 import com.omstu.cursorAnalyzer.service.AnalyzerService;
 import com.omstu.cursorAnalyzer.service.ButtonGeneratorService;
 import com.omstu.cursorAnalyzer.service.ParamsCalculatorService;
+import com.omstu.cursorAnalyzer.view.MessageBox;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -25,7 +27,8 @@ public class StartStopButtonClickController extends MouseAdapter {
                 .getComponent(Common.TEST_AREA_NUMBER);
         if (button.getLabel().equals("Start")) {
             button.setLabel("Stop");
-            testArea.add(generatorService.generateNewButton(null, 900, 700));
+            TestButtonClickController.oldButton = generatorService.generateNewButton(900, 700);
+            testArea.add(TestButtonClickController.oldButton);
             testArea.addMouseMotionListener(new ActionAreaClickController());
             ParamsCalculatorService.reloadFields();
         } else {
@@ -33,7 +36,11 @@ public class StartStopButtonClickController extends MouseAdapter {
             button.setLabel("Start");
             button.setEnabled(false);
             testArea.removeMouseMotionListener(new ActionAreaClickController());
-            AnalyzerService.stopTest(true);
+            try {
+                AnalyzerService.stopTest(true);
+            } catch (ServiceException ex) {
+                new MessageBox("Error", ex.getMessage(), "OK");
+            }
         }
     }
 }

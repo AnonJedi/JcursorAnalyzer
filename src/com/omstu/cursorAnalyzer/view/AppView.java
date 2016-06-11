@@ -15,6 +15,7 @@ public class AppView extends Frame {
         setLayout(null);
         setBounds(0, 0, 1200, 700);
         addWindowListener(new CustomWindowAdapter());
+        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
 
         TextField textField = new TextField(1);
@@ -37,7 +38,7 @@ public class AppView extends Frame {
         add(startStopButton);
 
         Panel testArea = new Panel();
-        testArea.setBounds(300, 0, 900, 700);
+        testArea.setBounds(255, 0, getWidth() - 255, getHeight());
         testArea.addMouseListener(new ActionAreaClickController());
         testArea.setBackground(new Color(100, 100, 100));
         add(testArea);
