@@ -10,7 +10,10 @@ public class Launcher {
         File file = new File(Common.OUT_PATH);
         if (!file.exists()) {
             if (file.mkdir()) System.out.println("Result directory was created");
-            else System.out.println("Error occurred while creation result directory");
+            else {
+                System.out.println("Error occurred while creation result directory");
+                return;
+            }
         }
         AppView app = new AppView("Diplom");
     }

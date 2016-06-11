@@ -2,7 +2,6 @@ package com.omstu.cursorAnalyzer.repository;
 
 import com.omstu.cursorAnalyzer.common.Common;
 import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
-import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
