@@ -1,7 +1,5 @@
 package com.omstu.cursorAnalyzer.external;
 
-import com.omstu.cursorAnalyzer.external.Complex;
-
 /*************************************************************************
  *  Compilation:  javac FFT.java
  *  Execution:    java FFT N

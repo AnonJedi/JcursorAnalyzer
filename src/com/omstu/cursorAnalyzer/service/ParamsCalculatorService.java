@@ -45,15 +45,12 @@ public class ParamsCalculatorService {
         return clickTimeContainer;
     }
 
-    public static void setClickTimeContainer(ArrayList<Long> clickTimeContainer) {
-        ParamsCalculatorService.clickTimeContainer = clickTimeContainer;
-    }
     public static void reloadFields() {
-        mouseTrack = new ArrayList<>();
-        buttonSizes = new ArrayList<>();
-        clickTimeContainer = new ArrayList<>();
-        buttonLens = new ArrayList<>();
-        mouseTracksContainer = new ArrayList<>();
+        mouseTrack = new ArrayList<Point>();
+        buttonSizes = new ArrayList<Integer>();
+        clickTimeContainer = new ArrayList<Long>();
+        buttonLens = new ArrayList<Double>();
+        mouseTracksContainer = new ArrayList<ArrayList<Point>>();
     }
 
     /**

@@ -5,4 +5,4 @@ Cursor Analyzer
 
 Requirements
 ------------
-jdk - 1.7 or greater
+jdk - 1.8 or greater

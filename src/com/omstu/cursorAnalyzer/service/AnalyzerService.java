@@ -3,8 +3,6 @@ package com.omstu.cursorAnalyzer.service;
 import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
 import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 import com.omstu.cursorAnalyzer.repository.ParamsRepository;
-import com.sun.media.sound.*;
-import com.sun.media.sound.FFT;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,7 +36,7 @@ public class AnalyzerService {
             clickCounter++;
         }
         previousButtonPos = buttonPos;
-        ParamsCalculatorService.setMouseTrack(new ArrayList<>());
+        ParamsCalculatorService.setMouseTrack(new ArrayList<Point>());
         return clickCounter;
     }
 

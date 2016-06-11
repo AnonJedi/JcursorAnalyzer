@@ -3,3 +3,5 @@ out/
 results/
 *.iml
 *.xml
+!pom.xml
+target/
