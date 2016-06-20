@@ -8,7 +8,7 @@ public class Common {
     public static int COUNTER_LABEL_NUMBER = 6;
     public static int USER_TEST_COUNTER_NUMBER = 7;
 
-    public static int NUMBER_OF_COUNTS = 64;
+    public static int NUMBER_OF_COUNTS = 32;
     public static int AMPS_COUNT = 15;
 
     public static final String DB_PATH = "DataBase.xml";

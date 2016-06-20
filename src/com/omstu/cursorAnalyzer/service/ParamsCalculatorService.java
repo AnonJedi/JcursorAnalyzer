@@ -82,9 +82,12 @@ public class ParamsCalculatorService {
         Complex[] ifft = FFT.ifft(FFT.fft(V, Common.NUMBER_OF_COUNTS));
         Complex[] fft = FFT.fft(ifft);
         double[] amps = new double[fft.length];
-        for (int i = 1; i < fft.length; i++) {
-            fft[fft.length - i].re -= fft[i].re;
-            fft[fft.length - i].im += fft[i].im;
+        if (fft.length != 32){
+            for (int i = 1; i < fft.length; i++) {
+                fft[fft.length - i].re -= fft[i].re;
+                fft[fft.length - i].im += fft[i].im;
+
+            }
         }
         for (int i = 0; i < amps.length; i++) {
             amps[i] = Math.sqrt(fft[i].re * fft[i].re + fft[i].im * fft[i].im) * 2 / fft.length;

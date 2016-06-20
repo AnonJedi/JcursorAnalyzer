@@ -1,5 +1,6 @@
 package com.omstu.cursorAnalyzer.service;
 
+import com.omstu.cursorAnalyzer.common.Common;
 import com.omstu.cursorAnalyzer.exceptions.RepositoryException;
 import com.omstu.cursorAnalyzer.exceptions.ServiceException;
 import com.omstu.cursorAnalyzer.repository.ParamsRepository;
@@ -23,7 +24,7 @@ public class AnalyzerService {
         currentClickTime = new Date();
         if (clickCounter == 0) {
             clickCounter++;
-        } else if (ParamsCalculatorService.getMouseTrack().size() > 64) {
+        } else if (ParamsCalculatorService.getMouseTrack().size() > Common.NUMBER_OF_COUNTS) {
             try {
                 ParamsRepository.savePoints(ParamsCalculatorService.getMouseTrack());
             } catch (RepositoryException e) {
